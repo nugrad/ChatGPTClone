@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>OpenAI GPT Chat</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+    />
+    <style>
+      body {
+        background-color: #35372d;
+        color: #ededf2;
+      }
+      .container {
+        margin-top: 20px;
+      }
+      #chat {
+        height: 400px;
+        overflow-y: scroll;
+        background-color: #444654;
+      }
+      .list-group-item {
+        border-radius: 5px;
+        background-color: #444654;
+        color: #ededf2;
+      }
+      .submit {
+        background-color: #21232e;
+        color: white;
+        border-radius: 5px;
+      }
+      .input-group input {
+        background-color: #444654;
+        color: #ededf2;
+        border: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>OpenAI GPT Chat</h2>
+      <hr />
+      <div class="panel panel-default">
+        <div class="panel-heading">Chat Messages</div>
+        <div class="panel-body" id="chat">
+          <ul class="list-group"></ul>
+        </div>
+      </div>
+      <div class="input-group">
+        <input type="text" id="userInput" class="form-control" />
+        <span class="input-group-btn">
+          <button class="btn btn-default submit" id="submit">Submit</button>
+        </span>
+      </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+      $("#submit").click(function() {
+        var userInput = $("#userInput").val();
+        $.get("/get?msg=" + encodeURIComponent(userInput), function(data) {
+          $("#chat .list-group").append("<li class='list-group-item'><b>You:</b> " + userInput + "</li>");
+          $("#chat .list-group").append("<li class='list-group-item'><b>OpenAI:</b> " + data + "</li>");
+          $("#chat").scrollTop($("#chat")[0].scrollHeight);
+          $("#userInput").val('');
+        });
+      });
+    </script>
+  </body>
+</html>
